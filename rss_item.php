@@ -25,14 +25,34 @@
 
 class RSSItem {
 	// instance variables
+	private $categories = array();
 	private $title;
 	private $description;
 	private $link;
 	private $pubdate;
 	private $guid;
+	private $author;
+	private $comments;
+	private $enclosure;
 
 	// setters
-	function setTitle($title) {
+	public function addCategory($cat) {
+		array_push($this->categories, (string)$cat);
+	}
+
+	public function setAuthor($author) {
+		$this->author = (string)$author;
+	}
+
+	public function setComments($comments) {
+		$this->comments = (string)$comments;
+	}
+
+	public function setEnclosure($enclosure) {
+		$this->enclosure = (string)$enclosure;
+	}
+
+	public function setTitle($title) {
 		$this->title = (string)$title;
 	}
 
@@ -75,51 +95,33 @@ class RSSItem {
 		$body .= "</item>\n";
 	}
 
-	private function writeTitle(&$body) {
-		if(isset($this->title)) {
-			$body .= "\t<title>";
-			$body .= htmlentities($this->title);
-			$body .= "</title>\n";
-		}
-	}
-
-	private function writeDescription(&$body) {
-		if(isset($this->description)) {
-			$body .= "\t<description>";
-			$body .= htmlentities($this->description);
-			$body .= "</description>\n";
-		}
-	}
-
-	private function writeLink(&$body) {
-		if(isset($this->link)) {
-			$body .= "\t<link>";
-			$body .= htmlentities($this->link);
-			$body .= "</link>\n";
-		}
-	}
-
-	private function writePubDate(&$body) {
-		if(isset($this->pubdate)) {
-			$body .= "\t<pubDate>";
-			$body .= htmlentities($this->pubdate);
-			$body .= "</pubDate>\n";
-		}
-	}
-
 	private function writeGUID(&$body) {
 		$body .= "\t<guid>";
 		$body .= $this->getGUID();
 		$body .= "</guid>\n";
 	}
 
+	private function writeAttribute(&$body, $attr, $val) {
+		if(isset($val)) {
+			$body .= "\t<$attr>";
+			$body .= htmlentities($val);
+			$body .= "</$attr>\n";
+		}
+	}
+
 	public function export() {
 		$body = "";
 		$this->writeHeader($body);
-		$this->writeTitle($body);
-		$this->writeDescription($body);
-		$this->writeLink($body);
-		$this->writePubDate($body);
+		$this->writeAttribute($body, "title", $this->title);
+		$this->writeAttribute($body, "description", $this->description);
+		$this->writeAttribute($body, "link", $this->link);
+		$this->writeAttribute($body, "pubDate", $this->pubdate);
+		$this->writeAttribute($body, "author", $this->author);
+		$this->writeAttribute($body, "comments", $this->comments);
+		$this->writeAttribute($body, "enclosure", $this->enclosure);
+		foreach($this->categories as $category) {
+			$this->writeAttribute($body, "category", $catrgory);
+		}
 		$this->writeGUID($body);
 		$this->writeFooter($body);
 		return $body;
