@@ -124,24 +124,29 @@ class RSSChannel {
 	// public API
 	public function export() {
 		$body = "";
-		writeHeader($body);
-		writeAttribute($body, "title", $this->title);
-		writeAttribute($body, "description", $this->description);
-		writeAttribute($body, "link", $this->link);
-		foreach($cat in $this->categories) {
-			writeAttribute($body, "category", $cat);
+		$this->writeHeader($body);
+		$this->writeAttribute($body, "title", $this->title);
+		$this->writeAttribute($body, "description", $this->description);
+		$this->writeAttribute($body, "link", $this->link);
+		$this->writeAttribute($body, "generator", $this->generator);
+		foreach($this->categories as $cat) {
+			$this->writeAttribute($body, "category", $cat);
 		}
-		writeAttribute($body, "language", $this->language);
-		writeAttribute($body, "lastBuildDate", $this-getLastBuildDate());
-		writeAttribute($body, "pubDate", $this->pubdate);
-		writeAttribute($body, "ttl", $this->ttl);
-		writeAttribute($body, "copyright", $this->copyright);
-		writeAttribute($body, "image", $this->image);
-		writeFooter($body);
+		$this->writeAttribute($body, "language", $this->language);
+		$this->writeAttribute($body, "lastBuildDate", $this->getLastBuildDate());
+		$this->writeAttribute($body, "pubDate", $this->pubdate);
+		$this->writeAttribute($body, "ttl", $this->ttl);
+		$this->writeAttribute($body, "copyright", $this->copyright);
+		$this->writeAttribute($body, "image", $this->image);
+		foreach($this->items as $item) {
+			$body .= "\t";
+			$body .= rtrim(str_replace("\n", "\n\t", $item->export()), "\t");
+		}
+		$this->writeFooter($body);
 		return $body;
 	}
 
 	public function __toString() {
-		return $body;
+		return $this->export();
 	}
 }
