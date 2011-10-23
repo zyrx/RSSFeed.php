@@ -3,7 +3,7 @@
  *  
  *  Copyright (C) 2011, Patrick M. Elsen
  *
- *  This file is part of CMatrixCrypt (http://github.com/xfbs/CMatrixCrypt)
+ *  This file is part of RSSFeed.php (http://github.com/xfbs/RSSFeed.php)
  *  Author: Patrick M. Elsen <pelsen.vn (a) gmail.com>
  *
  *  All rights reserved.
@@ -24,7 +24,9 @@
  */
 
 // defines the RSSItem class
+include_once("settings.php");
 include_once("rss_channel.php");
+include_once("rss_item.php");
 
 class RSSFeed {
 	private $version = "2.0";

@@ -3,7 +3,7 @@
  *  
  *  Copyright (C) 2011, Patrick M. Elsen
  *
- *  This file is part of CMatrixCrypt (http://github.com/xfbs/CMatrixCrypt)
+ *  This file is part of RSSFeed.php (http://github.com/xfbs/RSSFeed.php)
  *  Author: Patrick M. Elsen <pelsen.vn (a) gmail.com>
  *
  *  All rights reserved.
